@@ -1,6 +1,6 @@
 
-let CANVAS_WIDTH = 1920,
-CANVAS_HEIGHT = 1080;
+let CANVAS_WIDTH = 1920
+let CANVAS_HEIGHT = 1080
 
 // The application will create a renderer using WebGL, if possible,
 // with a fallback to a canvas render. It will also setup the ticker
@@ -30,7 +30,6 @@ let letterbox = (frame, frameX, frameY) => {
   frame.bottom.height = frameY
   frame.bottom.width = frameW
   frame.bottom.y = CANVAS_HEIGHT
-
 }
 
 // Rescales the screen up to a certain threshold
@@ -57,12 +56,21 @@ let sceneResize = (stretchThreshold = 0) => {
   letterbox(app.letterbox, app.stage.x, app.stage.y)
 }
 
+let normalizeX = (x) => {
+  return x
+}
 // The application will create a canvas element for you that you
 // can then insert into the DOM
 document.body.appendChild(app.view);
 
 // load the texture we need
-app.loader.add('bunny', 'images/reimu.png').add('black', 'images/black.png').load((loader, resources) => {
+app.loader
+  .add('circle', 'images/circle.png')
+  .add('black', 'images/black.png')
+  .add('tile', 'images/tile.png')
+  .add('reimu', 'images/reimu.png')
+  .add('background', 'images/background.png')
+  .load((loader, resources) => {
 
     app.renderer.backgroundColor = 0xffffff
 
@@ -75,26 +83,164 @@ app.loader.add('bunny', 'images/reimu.png').add('black', 'images/black.png').loa
     }
 
     app.letterbox.top.interactive = true
-    app.stage.addChild(app.letterbox.top)
-
     app.letterbox.bottom.interactive = true
-    app.stage.addChild(app.letterbox.bottom)
-
     app.letterbox.left.interactive = true
-    app.stage.addChild(app.letterbox.left)
-
     app.letterbox.right.interactive = true
-    app.stage.addChild(app.letterbox.right)
 
-    sceneResize() // -> util.js
+    sceneResize()
 
     window.addEventListener('resize', () => { 
-      sceneResize() // -> util.js
+      sceneResize()
     }, true);
+
+    let background = new PIXI.Sprite(resources.background.texture)
+    app.stage.addChild(background)
+
+    let tile1 = new PIXI.Sprite(resources.tile.texture)
+    tile1.anchor.set(0.5)
+    tile1.width = 320
+    tile1.height = 160
+    tile1.x = CANVAS_WIDTH / 2 - 320 - 100 - 30
+    tile1.y = CANVAS_HEIGHT / 2 + 15
+    app.stage.addChild(tile1)
+
+    let tile2 = new PIXI.Sprite(resources.tile.texture)
+    tile2.anchor.set(0.5)
+    tile2.width = 320
+    tile2.height = 160
+    tile2.x = CANVAS_WIDTH / 2 - 160 - 30
+    tile2.y = CANVAS_HEIGHT / 2 + 80 + 15
+    app.stage.addChild(tile2)
+
+    let tile3 = new PIXI.Sprite(resources.tile.texture)
+    tile3.anchor.set(0.5)
+    tile3.width = 320
+    tile3.height = 160
+    tile3.x = CANVAS_WIDTH / 2 - 30
+    tile3.y = CANVAS_HEIGHT / 2 + 160 + 50 + 15
+    app.stage.addChild(tile3)
+
+    let tile4 = new PIXI.Sprite(resources.tile.texture)
+    tile4.anchor.set(0.5)
+    tile4.width = 320
+    tile4.height = 160
+    tile4.x = CANVAS_WIDTH / 2 + 30
+    tile4.y = CANVAS_HEIGHT / 2 - 160 - 50 - 15
+    app.stage.addChild(tile4)
+
+    let tile5 = new PIXI.Sprite(resources.tile.texture)
+    tile5.anchor.set(0.5)
+    tile5.width = 320
+    tile5.height = 160
+    tile5.x = CANVAS_WIDTH / 2 + 160 + 30
+    tile5.y = CANVAS_HEIGHT / 2 - 80 - 15
+    app.stage.addChild(tile5)
+
+    let tile6 = new PIXI.Sprite(resources.tile.texture)
+    tile6.anchor.set(0.5)
+    tile6.width = 320
+    tile6.height = 160
+    tile6.x = CANVAS_WIDTH / 2 + 320 + 100 + 30
+    tile6.y = CANVAS_HEIGHT / 2 - 15
+    app.stage.addChild(tile6)
+
+    let reimu1 = new PIXI.Sprite(resources.reimu.texture)
+    reimu1.x = tile1.x
+    reimu1.y = tile1.y + 50
+    reimu1.anchor.set(0.5, 1)
+    reimu1.width = -210
+    reimu1.height = 300
+    app.stage.addChild(reimu1)
+
+    let reimu2 = new PIXI.Sprite(resources.reimu.texture)
+    reimu2.x = tile2.x
+    reimu2.y = tile2.y + 50
+    reimu2.anchor.set(0.5, 1)
+    reimu2.width = -210
+    reimu2.height = 300
+    app.stage.addChild(reimu2)
+
+    let reimu3 = new PIXI.Sprite(resources.reimu.texture)
+    reimu3.x = tile3.x
+    reimu3.y = tile3.y + 50
+    reimu3.anchor.set(0.5, 1)
+    reimu3.width = -210
+    reimu3.height = 300
+    app.stage.addChild(reimu3)
+
+    let reimu4 = new PIXI.Sprite(resources.reimu.texture)
+    reimu4.x = tile4.x
+    reimu4.y = tile4.y + 50
+    reimu4.anchor.set(0.5, 1)
+    reimu4.width = 210
+    reimu4.height = 300
+    app.stage.addChild(reimu4)
+
+    let reimu5 = new PIXI.Sprite(resources.reimu.texture)
+    reimu5.x = tile5.x
+    reimu5.y = tile5.y + 50
+    reimu5.anchor.set(0.5, 1)
+    reimu5.width = 210
+    reimu5.height = 300
+    app.stage.addChild(reimu5)
+
+    let reimu6 = new PIXI.Sprite(resources.reimu.texture)
+    reimu6.x = tile6.x
+    reimu6.y = tile6.y + 50
+    reimu6.anchor.set(0.5, 1)
+    reimu6.width = 210
+    reimu6.height = 300
+    app.stage.addChild(reimu6)
+
+    let circles = []
+
+    for (let i = 0; i < 1000; i++) {
+      let circle = new PIXI.Sprite(resources.circle.texture)
+      circle.width = 15
+      circle.height = 15
+      circle.visible = false
+      circle.anchor.set(0.5)
+      circles.push(circle)
+      app.stage.addChild(circle)
+    }
+
+    app.stage.interactive = true
+    app.stage.on('pointerdown', (e) => {
+      let cursor = app.stage.toLocal(e.data.global)
+      circles[0].x = cursor.x
+      circles[0].y = cursor.y
+      for (let i = 0; i < 1000; ++ i) {
+        circles[i].visible = true
+        circles[i].x = circles[0].x + (cursor.x - circles[0].x) * (i ** 2) / 999 ** 2
+        circles[i].y = circles[0].y + (cursor.y - circles[0].y) * i / 999
+      }
+    })
+    app.stage.on('pointermove', (e) => {
+      let cursor = app.stage.toLocal(e.data.global)
+      for (let i = 0; i < 1000; ++ i) {
+        circles[i].x = circles[0].x + (cursor.x - circles[0].x) * (i ** 2) / 999 ** 2
+        circles[i].y = circles[0].y + (cursor.y - circles[0].y) * i / 999
+      }
+    })
+    app.stage.on('pointerup', (e) => {
+      for (let i = 0; i < 1000; ++ i) {
+        circles[i].visible = false
+      }
+    })
+    app.stage.on('pointerupoutside', (e) => {
+      for (let i = 0; i < 1000; ++ i) {
+        circles[i].visible = false
+      }
+    })
 
     // Listen for frame updates
     app.ticker.add(() => {
         // each frame we spin the bunny around a bit
         // Scene resize and centering
+
+      app.stage.addChild(app.letterbox.top)
+      app.stage.addChild(app.letterbox.bottom)
+      app.stage.addChild(app.letterbox.left)
+      app.stage.addChild(app.letterbox.right)
     });
 });
