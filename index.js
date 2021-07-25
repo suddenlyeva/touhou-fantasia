@@ -69,6 +69,7 @@ app.loader
   .add('black', 'images/black.png')
   .add('tile', 'images/tile.png')
   .add('reimu', 'images/reimu.png')
+  .add('card', 'images/card.png')
   .add('background', 'images/background.png')
   .load((loader, resources) => {
 
@@ -87,15 +88,20 @@ app.loader
     app.letterbox.left.interactive = true
     app.letterbox.right.interactive = true
 
+
+    // Autoresize
     sceneResize()
 
     window.addEventListener('resize', () => { 
       sceneResize()
     }, true);
 
+    // Background
     let background = new PIXI.Sprite(resources.background.texture)
     app.stage.addChild(background)
 
+
+    // Playfield tiles
     let tile1 = new PIXI.Sprite(resources.tile.texture)
     tile1.anchor.set(0.5)
     tile1.width = 320
@@ -144,6 +150,7 @@ app.loader
     tile6.y = CANVAS_HEIGHT / 2 - 15
     app.stage.addChild(tile6)
 
+    // Playfield Characters
     let reimu1 = new PIXI.Sprite(resources.reimu.texture)
     reimu1.x = tile1.x
     reimu1.y = tile1.y + 50
@@ -192,6 +199,37 @@ app.loader
     reimu6.height = 300
     app.stage.addChild(reimu6)
 
+    // Card Display
+
+    let cards = []
+
+    for (let i = 0; i < 5; i++) {
+      let card = new PIXI.Sprite(resources.card.texture)
+      card.anchor.set(0.5)
+      card.width = 180
+      card.height = 242
+      card.x = CANVAS_WIDTH / 2 + ( i - 2 ) * 190
+      card.y = CANVAS_HEIGHT - 60 + Math.abs(i - 2) ** 2 * 10
+      card.rotation += ( i - 2 ) * 0.08
+      card.interactive = true
+      card.on('pointerover', (e) => {
+        card.width = 250
+        card.height = 350
+        card.y = CANVAS_HEIGHT - 175
+        card.rotation = 0
+      })
+      card.on('pointerout', (e) => {
+        let i = cards.indexOf(card)
+        card.width = 180
+        card.height = 242
+        card.y = CANVAS_HEIGHT - 50 + Math.abs(i - 2) ** 2 * 10
+        card.rotation += ( i - 2 ) * 0.08
+      })
+      app.stage.addChild(card)
+      cards.push(card)
+    }
+
+    // Targeting
     let circles = []
 
     for (let i = 0; i < 1000; i++) {
